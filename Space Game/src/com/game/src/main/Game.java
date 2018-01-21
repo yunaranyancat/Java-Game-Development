@@ -2,6 +2,9 @@ package com.game.src.main;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -20,6 +23,8 @@ public class Game extends Canvas implements Runnable{
 	//setting up variables
 	private boolean gameloop = false;
 	private Thread thread;
+	//starting some buffers
+	private BufferedImage image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 	
 	private synchronized void start() {
 		if(gameloop)
@@ -82,6 +87,23 @@ public class Game extends Canvas implements Runnable{
 		
 	}
 	private void render() {
+		BufferStrategy bs = this.getBufferStrategy();
+		if(bs == null){
+			
+			createBufferStrategy(3);//create 3 buffers
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
+		///////////////////////////////////
+		
+		
+		g.drawImage(image,0,0,getWidth(),getHeight(),this);
+		
+		
+		///////////////////////////////////
+		g.dispose(); //remove buffers
+		bs.show(); //show out bufferstrategy
+		
 		
 	};
 	
